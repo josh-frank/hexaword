@@ -11,6 +11,7 @@ import Score from './components/Score';
 import { addToGuesses } from './redux/allGuessesSlice';
 import Guesses from './components/Guesses';
 import Timer from './components/Timer';
+import { Button, Container, Grid, Menu } from 'semantic-ui-react';
 
 function App() {
 
@@ -68,14 +69,34 @@ function App() {
 
   return ( !!currentPuzzle.length &&
     <div className="App">
-      <Board letters={ currentPuzzle } />
+      <Menu
+        borderless
+        inverted
+        stackable
+        attached="top"
+        color="black"
+      >
+        <Menu.Item position="right" onClick={ null }>New game</Menu.Item>
+      </Menu>
+      <Container>
+        <Grid columns={ 3 }>
+          <Grid.Row>
+            <Grid.Column width={ 2 }>
+              <Score />
+              <Timer />
+            </Grid.Column>
+            <Grid.Column width={ 5 }>
+              <Board letters={ currentPuzzle } />
+            </Grid.Column>
+            <Grid.Column width={ 9 }>
+              <Guesses />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
       <GuessField />
-      <Score />
-      <Timer />
-      <button onClick={ () => dispatch( shuffleLetters() ) }>Shuffle</button>
-      <button onClick={ () => dispatch( clearCurrentGuess() ) }>Clear</button>
-      <button onClick={ null }>New game</button>
-      <Guesses />
+      <Button onClick={ () => dispatch( shuffleLetters() ) }>Shuffle</Button>
+      <Button onClick={ () => dispatch( clearCurrentGuess() ) }>Clear</Button>
     </div>
   );
 
