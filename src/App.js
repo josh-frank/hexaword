@@ -39,12 +39,12 @@ function App() {
       case pangrams.includes( currentGuess ):
         console.log( "Bonus!" );
         stableDispatch( addToGuesses( currentGuess ) );
-        stableDispatch( incrementScoreBy( 3 ) );
+        stableDispatch( incrementScoreBy( currentGuess.length * 2 ) );
         break;
       case possibleWords.includes( currentGuess ):
         console.log( "Correct!" );
         stableDispatch( addToGuesses( currentGuess ) );
-        stableDispatch( incrementScoreBy( 1 ) );
+        stableDispatch( incrementScoreBy( currentGuess.length ) );
         break;
       default: console.log( "Not a valid guess" );
     }
@@ -74,6 +74,7 @@ function App() {
       <Timer />
       <button onClick={ () => dispatch( shuffleLetters() ) }>Shuffle</button>
       <button onClick={ () => dispatch( clearCurrentGuess() ) }>Clear</button>
+      <button onClick={ null }>New game</button>
       <Guesses />
     </div>
   );
