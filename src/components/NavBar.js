@@ -7,6 +7,7 @@ import { resetGuesses } from "../redux/allGuessesSlice";
 import { clearCurrentGuess } from "../redux/currentGuessSlice";
 import { clearTime } from "../redux/currentTimeSlice";
 import { resetScore } from "../redux/currentScoreSlice";
+import HexagonLogo from "./HexagonLogo";
 
 export default function NavBar() {
 
@@ -51,6 +52,7 @@ export default function NavBar() {
             attached="top"
             color="black"
         >
+            <Menu.Item><HexagonLogo small negative={ true }/></Menu.Item>
             <Menu.Item position="right">{ newGameModal }</Menu.Item>
         </Menu>
     </>;

@@ -82,10 +82,10 @@ function App() {
               <Score highestPossibleScore={ possibleWords.join( "" ).length + pangrams.join( "" ).length } />
               <ControlButtons />
             </Grid.Column>
-            <Grid.Column width={ 5 }>
+            <Grid.Column width={ 6 }>
               <Board letters={ currentPuzzle } />
             </Grid.Column>
-            <Grid.Column width={ 7 }>
+            <Grid.Column width={ 6 }>
               <Guesses />
             </Grid.Column>
           </Grid.Row>

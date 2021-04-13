@@ -11,7 +11,7 @@ export default function LogoModal() {
         inverted
         active={ displayDimmer }
     >
-        <HexagonLogo />
+        <HexagonLogo negative={ false }/>
         <Divider hidden />
         <Button color="black" onClick={ () => toggleDisplayDimmer( false ) }>Start game</Button>
     </Dimmer>;
