@@ -1,5 +1,5 @@
 import './App.css';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLetters } from './redux/currentPuzzleSlice';
 import { addLetterToCurrentGuess, clearCurrentGuess, removeLastLetterFromCurrentGuess } from './redux/currentGuessSlice';
@@ -22,6 +22,9 @@ function App() {
 
   const dispatch = useDispatch();
 
+  const [ gameMessage, setGameMessage ] = useState( "" );
+  const [ displayGameMessage, toggleDisplayGameMessage ] = useState( false );
+
   const currentPuzzle = useSelector( state => state.currentPuzzle );
   const currentGuess = useSelector( state => state.currentGuess );
   const allGuesses = useSelector( state => state.allGuesses );
@@ -31,6 +34,24 @@ function App() {
   const possibleWords = dictionary.filter( word => word.search( match ) > -1 );
   const pangrams = dictionary.filter( word => word.search( pangram ) > -1 );
   // const highestPossibleScore = possibleWords.join( "" ).length + pangrams.join( "" ).length;
+
+  function MessagePortal( { display, message } ) {
+    return <TransitionablePortal open={ display }>
+      <Segment inverted color="teal" style={ { left: "50%", position: "fixed", top: "0", zIndex: 1000 } }>
+        <Header>{ message }</Header>
+      </Segment>
+    </TransitionablePortal>;
+  }
+
+  const displayMessage = useCallback( message => {
+    setGameMessage( message );
+    toggleDisplayGameMessage( true );
+  }, [] );
+
+  const clearMessage = useCallback( () => {
+    toggleDisplayGameMessage( false );
+    setGameMessage( "" );
+  }, [] );
 
   const startGame = useCallback( () => {
     const puzzleLetters = [ ...new Set( sevenUniqueLetters[ Math.floor( Math.random() * sevenUniqueLetters.length ) ].split( "" ) ) ].join( "" );
@@ -45,24 +66,26 @@ function App() {
   const makeGuess = useCallback( () => {
     switch ( true ) {
       case allGuesses.includes( currentGuess ):
-        console.log( "Already guessed" );
+        displayMessage( "Already guessed" );
         break;
       case pangrams.includes( currentGuess ):
-        console.log( "Bonus!" );
+        displayMessage( "Bonus!" );
         dispatch( addToGuesses( currentGuess ) );
         dispatch( incrementScoreBy( currentGuess.length * 2 ) );
         break;
       case possibleWords.includes( currentGuess ):
-        console.log( "Correct!" );
+        displayMessage( "Correct!" );
         dispatch( addToGuesses( currentGuess ) );
         dispatch( incrementScoreBy( currentGuess.length ) );
         break;
-      default: console.log( "Not a valid guess" );
+      default: displayMessage( "Not a valid guess" );
     }
     dispatch( clearCurrentGuess() );
-  }, [ allGuesses, currentGuess, pangrams, possibleWords, dispatch ] );
+    setTimeout( clearMessage, 2000 );
+  }, [ allGuesses, currentGuess, displayMessage, clearMessage, pangrams, possibleWords, dispatch ] );
 
   const handleKeyPress = useCallback( keyPressEvent => {
+    clearMessage();
     if ( currentPuzzle.includes( keyPressEvent.key.toUpperCase() ) ) {
       dispatch( addLetterToCurrentGuess( keyPressEvent.key.toUpperCase() ) );
     } else if ( keyPressEvent.key === "Backspace" ) {
@@ -70,15 +93,7 @@ function App() {
     } else if ( keyPressEvent.key === "Enter" ) {
       makeGuess();
     }
-  }, [ makeGuess, currentPuzzle, dispatch ] );
-
-  function MessagePortal( { message } ) {
-    return <TransitionablePortal open={ true }>
-      <Segment inverted color="red" style={ { left: "50%", position: "fixed", top: "0", zIndex: 1000 } }>
-        <Header>{ message }</Header>
-      </Segment>
-    </TransitionablePortal>;
-  }
+  }, [ currentPuzzle, dispatch, clearMessage, makeGuess ] );
 
   useEffect( () => {
     window.addEventListener( "keydown", handleKeyPress );
@@ -88,7 +103,7 @@ function App() {
   return <div className="App">
     <LogoModal startGame={ startGame } />
     <NavBar startGame={ startGame } />
-    <MessagePortal message="Test" />
+    <MessagePortal display={ displayGameMessage } message={ gameMessage } />
     <Container style={ { marginTop: "25px" } }>
       <Grid textAlign="center" columns={ 3 }>
         <Grid.Row>
