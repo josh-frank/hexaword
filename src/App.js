@@ -6,7 +6,7 @@ import { addLetterToCurrentGuess, clearCurrentGuess, removeLastLetterFromCurrent
 import { incrementScoreBy, resetScore } from './redux/currentScoreSlice';
 import { addToGuesses, resetGuesses } from './redux/allGuessesSlice';
 import { clearTime, runTimer } from './redux/currentTimeSlice';
-import { Container, Grid } from 'semantic-ui-react';
+import { Container, Grid, Header, TransitionablePortal, Segment } from 'semantic-ui-react';
 import Board from './components/Board';
 import GuessField from './components/GuessField';
 import Score from './components/Score';
@@ -30,10 +30,10 @@ function App() {
   const pangram = `^(?=.*${ currentPuzzle[ 0 ] })(?=.*${ currentPuzzle[ 1 ] })(?=.*${ currentPuzzle[ 2 ] })(?=.*${ currentPuzzle[ 3 ] })(?=.*${ currentPuzzle[ 4 ] })(?=.*${ currentPuzzle[ 5 ] })(?=.*${ currentPuzzle[ 6 ] })[${ currentPuzzle }]{4,}$`;
   const possibleWords = dictionary.filter( word => word.search( match ) > -1 );
   const pangrams = dictionary.filter( word => word.search( pangram ) > -1 );
+  // const highestPossibleScore = possibleWords.join( "" ).length + pangrams.join( "" ).length;
 
   const startGame = useCallback( () => {
     const puzzleLetters = [ ...new Set( sevenUniqueLetters[ Math.floor( Math.random() * sevenUniqueLetters.length ) ].split( "" ) ) ].join( "" );
-    // dispatch( setLetters( puzzleLetters ) );
     dispatch( setLetters( shuffle( puzzleLetters.split( "" ) ).join( "" ) ) );
     dispatch( clearCurrentGuess() );
     dispatch( resetGuesses() );
@@ -72,6 +72,14 @@ function App() {
     }
   }, [ makeGuess, currentPuzzle, dispatch ] );
 
+  function MessagePortal( { message } ) {
+    return <TransitionablePortal open={ true }>
+      <Segment inverted color="red" style={ { left: "50%", position: "fixed", top: "0", zIndex: 1000 } }>
+        <Header>{ message }</Header>
+      </Segment>
+    </TransitionablePortal>;
+  }
+
   useEffect( () => {
     window.addEventListener( "keydown", handleKeyPress );
     return () => window.removeEventListener( "keydown", handleKeyPress );
@@ -80,12 +88,13 @@ function App() {
   return <div className="App">
     <LogoModal startGame={ startGame } />
     <NavBar startGame={ startGame } />
+    <MessagePortal message="Test" />
     <Container style={ { marginTop: "25px" } }>
-      <Grid columns={ 3 }>
+      <Grid textAlign="center" columns={ 3 }>
         <Grid.Row>
           <Grid.Column width={ 4 } textAlign="center">
             <Timer />
-            <Score highestPossibleScore={ possibleWords.join( "" ).length + pangrams.join( "" ).length } />
+            <Score />
             <ControlButtons />
           </Grid.Column>
           <Grid.Column width={ 6 }>
