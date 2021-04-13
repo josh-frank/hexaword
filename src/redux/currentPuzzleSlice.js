@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { shuffle } from "../utilities/shuffle";
 
 const currentPuzzleSlice = createSlice( {
     name: "currentPuzzle",
@@ -8,12 +9,7 @@ const currentPuzzleSlice = createSlice( {
         return action.payload.toUpperCase();
       },
       shuffleLetters( state ) {
-        const lettersToShuffle = [ ...state.slice( 1 ).split( "" ) ];
-        for ( let i = lettersToShuffle.length - 1; i > 0; i-- ) {
-            const j = Math.floor( Math.random() * ( i + 1 ) );
-            [ lettersToShuffle[ i ], lettersToShuffle[ j ] ] = [ lettersToShuffle[ j ], lettersToShuffle[ i ] ];
-        }
-        return state[ 0 ] + lettersToShuffle.join( "" );
+        return state[ 0 ] + shuffle( state.slice( 1 ).split( "" ) ).join( "" );
       }
     }
   } );

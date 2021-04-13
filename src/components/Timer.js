@@ -15,11 +15,11 @@ export default function Timer() {
 
     return <div className="timer">
         <span>
-            { Math.floor( currentTime / 60 ) }
+            { Math.floor( currentTime.clock / 60 ) }
         </span>
         :
         <span>
-            { ( "0" + ( currentTime % 60 ) ).slice( -2 ) }
+            { ( "0" + ( currentTime.clock % 60 ) ).slice( -2 ) }
         </span>
     </div>;
 

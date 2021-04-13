@@ -1,60 +1,56 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Menu, Modal } from "semantic-ui-react";
-import { sevenUniqueLetters } from '../assets/dictionary';
-import { setLetters } from "../redux/currentPuzzleSlice";
-import { resetGuesses } from "../redux/allGuessesSlice";
-import { clearCurrentGuess } from "../redux/currentGuessSlice";
-import { clearTime } from "../redux/currentTimeSlice";
-import { resetScore } from "../redux/currentScoreSlice";
+import { runTimer, stopTimer } from "../redux/currentTimeSlice";
 import HexagonLogo from "./HexagonLogo";
 
-export default function NavBar() {
+export default function NavBar( { startGame } ) {
 
     const dispatch = useDispatch();
 
     const [ displayNewGameModal, toggleDisplayNewGameModal ] = useState( false );
 
+    function openNewGameModal() {
+        toggleDisplayNewGameModal( true );
+        dispatch( stopTimer() );
+    }
+
+    function closeNewGameModal() {
+        toggleDisplayNewGameModal( false );
+        dispatch( runTimer() );
+    }
+
     const newGameModal = <Modal
         size="mini"
         dimmer="inverted"
         open={ displayNewGameModal }
-        onClose={ () => toggleDisplayNewGameModal( false ) }
-        onOpen={ () => toggleDisplayNewGameModal( true ) }
+        onClose={ closeNewGameModal }
+        onOpen={ openNewGameModal }
         trigger={ <Button basic inverted>New game</Button> }
     >
         <Modal.Header>Are you sure you want to discard this game and start a new one?</Modal.Header>
         <Modal.Actions>
-            <Button negative onClick={ () => toggleDisplayNewGameModal( false ) }>
+            <Button negative onClick={ closeNewGameModal }>
                 Continue game
             </Button>
-            <Button positive onClick={ startNewGame }>
+            <Button positive onClick={ () => {
+                closeNewGameModal();
+                startGame();
+            } }>
                 Start new game
             </Button>
         </Modal.Actions>
     </Modal>;
 
-    function startNewGame() {
-        const newPuzzleLetters = [ ...new Set( sevenUniqueLetters[ Math.floor( Math.random() * sevenUniqueLetters.length ) ].split( "" ) ) ].join( "" );
-        dispatch( setLetters( newPuzzleLetters ) );
-        dispatch( clearCurrentGuess() );
-        dispatch( resetGuesses() );
-        dispatch( resetScore() );
-        dispatch( clearTime() );
-        toggleDisplayNewGameModal( false );
-    }
-
-    return <>
-        <Menu
-            borderless
-            inverted
-            stackable
-            attached="top"
-            color="black"
-        >
-            <Menu.Item><HexagonLogo small negative={ true }/></Menu.Item>
-            <Menu.Item position="right">{ newGameModal }</Menu.Item>
-        </Menu>
-    </>;
+    return <Menu
+        borderless
+        inverted
+        stackable
+        attached="top"
+        color="black"
+    >
+        <Menu.Item><HexagonLogo small negative={ true }/></Menu.Item>
+        <Menu.Item position="right">{ newGameModal }</Menu.Item>
+    </Menu>;
 
 }

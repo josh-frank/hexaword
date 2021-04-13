@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Dimmer, Divider } from "semantic-ui-react";
 import HexagonLogo from "./HexagonLogo";
 
-export default function LogoModal() {
+export default function LogoModal( { startGame } ) {
 
     const [ displayDimmer, toggleDisplayDimmer ] = useState( true );
 
@@ -13,7 +13,15 @@ export default function LogoModal() {
     >
         <HexagonLogo negative={ false }/>
         <Divider hidden />
-        <Button color="black" onClick={ () => toggleDisplayDimmer( false ) }>Start game</Button>
+        <Button 
+            color="black"
+            onClick={ () => {
+                toggleDisplayDimmer( false );
+                startGame();
+            } }
+        >
+            Start game
+        </Button>
     </Dimmer>;
 
 }
