@@ -9,6 +9,7 @@ export default function NavBar( { startGame } ) {
     const dispatch = useDispatch();
 
     const [ displayNewGameModal, toggleDisplayNewGameModal ] = useState( false );
+    const [ displayPauseModal, toggleDisplayPauseModal ] = useState( false );
 
     function openNewGameModal() {
         toggleDisplayNewGameModal( true );
@@ -20,13 +21,37 @@ export default function NavBar( { startGame } ) {
         dispatch( runTimer() );
     }
 
+    function openPauseModal() {
+        toggleDisplayPauseModal( true );
+        dispatch( stopTimer() );
+    }
+
+    function closePauseModal() {
+        toggleDisplayPauseModal( false );
+        dispatch( runTimer() );
+    }
+
+    const pauseGameModal = <Modal
+        size="mini"
+        dimmer="inverted"
+        open={ displayPauseModal }
+        onClose={ closePauseModal }
+        onOpen={ openPauseModal }
+        trigger={ <Button secondary>Pause game</Button> }
+    >
+        <Modal.Header>Game paused</Modal.Header>
+        <Modal.Actions>
+            <Button positive onClick={ closePauseModal }>Resume game</Button>
+        </Modal.Actions>
+    </Modal>;
+
     const newGameModal = <Modal
         size="mini"
         dimmer="inverted"
         open={ displayNewGameModal }
         onClose={ closeNewGameModal }
         onOpen={ openNewGameModal }
-        trigger={ <Button basic inverted>New game</Button> }
+        trigger={ <Button secondary>New game</Button> }
     >
         <Modal.Header>Are you sure you want to discard this game and start a new one?</Modal.Header>
         <Modal.Actions>
@@ -50,7 +75,10 @@ export default function NavBar( { startGame } ) {
         color="black"
     >
         <Menu.Item><HexagonLogo small negative={ true }/></Menu.Item>
-        <Menu.Item position="right">{ newGameModal }</Menu.Item>
+        <Menu.Item position="right">
+            { pauseGameModal }
+            { newGameModal }
+        </Menu.Item>
     </Menu>;
 
 }
