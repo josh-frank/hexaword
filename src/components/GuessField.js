@@ -1,9 +1,13 @@
 import { useSelector } from "react-redux";
+import { Header } from "semantic-ui-react";
 
 export default function GuessField() {
 
-    return <h1 className="guess-field">
+    return <Header
+        className="guess-field"
+        style={ { alignSelf: "center", fontSize: "5rem" } }
+    >
         { useSelector( state => state.currentGuess ) }
-    </h1>;
+    </Header>;
 
 }

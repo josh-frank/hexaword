@@ -1,9 +1,22 @@
 import { useSelector } from "react-redux";
+import { Header, Progress } from "semantic-ui-react";
 
-export default function Score() {
+export default function Score( { highestPossibleScore } ) {
+    
+    console.log( "highestPossibleScore: ", highestPossibleScore );
 
-    return <h1 className="score">
-        Score: { useSelector( state => state.currentScore ) }
-    </h1>;
+    const currentScore = useSelector( state => state.currentScore );
+
+    return <>
+        <Header className="score" textAlign="center">
+            Score: { currentScore }
+        </Header>
+        <Progress
+            indicating
+            value={ currentScore }
+            total={ 100 }
+            // progress="percent"
+        />
+    </>;
 
 }

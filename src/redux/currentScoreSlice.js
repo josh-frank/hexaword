@@ -6,9 +6,12 @@ const currentScoreSlice = createSlice( {
     reducers: {
       incrementScoreBy( state, action ) {
         return state + action.payload;
+      },
+      resetScore() {
+        return 0;
       }
     }
   } );
   
-  export const { incrementScoreBy } = currentScoreSlice.actions;
+  export const { incrementScoreBy, resetScore } = currentScoreSlice.actions;
   export default currentScoreSlice.reducer;

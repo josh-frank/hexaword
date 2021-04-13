@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { incrementTime } from "../redux/currentTimeSlice";
 
 export default function Timer() {
 
-    const [ time, setTime ] = useState( 0 );
+    const dispatch = useDispatch();
+
+    const currentTime = useSelector( state => state.currentTime );
 
     useEffect( () => {
-        const timer = setInterval( () => setTime( time => time + 1 ), 1000 );
+        const timer = setInterval( () => dispatch( incrementTime() ), 1000 );
         return () => clearInterval( timer );
-      }, [] );
+      }, [ dispatch ] );
 
     return <div className="timer">
         <span>
-            { Math.floor( time / 60 ) }
+            { Math.floor( currentTime / 60 ) }
         </span>
         :
         <span>
-            { ( "0" + ( time % 60 ) ).slice( -2 ) }
+            { ( "0" + ( currentTime % 60 ) ).slice( -2 ) }
         </span>
     </div>;
 

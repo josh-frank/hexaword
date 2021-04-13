@@ -6,9 +6,12 @@ const allGuessesSlice = createSlice( {
     reducers: {
       addToGuesses( state, action ) {
         return [ ...state, action.payload ];
+      },
+      resetGuesses() {
+        return [];
       }
     }
   } );
   
-  export const { addToGuesses } = allGuessesSlice.actions;
+  export const { addToGuesses, resetGuesses } = allGuessesSlice.actions;
   export default allGuessesSlice.reducer;

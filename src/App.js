@@ -1,17 +1,20 @@
 import './App.css';
-import Board from './components/Board';
-import { dictionary, sevenUniqueLetters } from './assets/dictionary';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLetters, shuffleLetters } from './redux/currentPuzzleSlice';
+import { setLetters } from './redux/currentPuzzleSlice';
 import { addLetterToCurrentGuess, clearCurrentGuess, removeLastLetterFromCurrentGuess } from './redux/currentGuessSlice';
-import GuessField from './components/GuessField';
 import { incrementScoreBy } from './redux/currentScoreSlice';
-import Score from './components/Score';
 import { addToGuesses } from './redux/allGuessesSlice';
+import { Container, Grid } from 'semantic-ui-react';
+import { dictionary, sevenUniqueLetters } from './assets/dictionary';
+import Board from './components/Board';
+import GuessField from './components/GuessField';
+import Score from './components/Score';
 import Guesses from './components/Guesses';
 import Timer from './components/Timer';
-import { Button, Container, Grid, Menu } from 'semantic-ui-react';
+import NavBar from './components/NavBar';
+import ControlButtons from './components/ControlButtons';
+import LogoModal from './components/LogoModal';
 
 function App() {
 
@@ -69,34 +72,28 @@ function App() {
 
   return ( !!currentPuzzle.length &&
     <div className="App">
-      <Menu
-        borderless
-        inverted
-        stackable
-        attached="top"
-        color="black"
-      >
-        <Menu.Item position="right" onClick={ null }>New game</Menu.Item>
-      </Menu>
-      <Container>
+      <LogoModal />
+      <NavBar />
+      <Container style={ { marginTop: "25px" } }>
         <Grid columns={ 3 }>
           <Grid.Row>
-            <Grid.Column width={ 2 }>
-              <Score />
+            <Grid.Column width={ 4 } textAlign="center">
               <Timer />
+              <Score highestPossibleScore={ possibleWords.join( "" ).length + pangrams.join( "" ).length } />
+              <ControlButtons />
             </Grid.Column>
             <Grid.Column width={ 5 }>
               <Board letters={ currentPuzzle } />
             </Grid.Column>
-            <Grid.Column width={ 9 }>
+            <Grid.Column width={ 7 }>
               <Guesses />
             </Grid.Column>
           </Grid.Row>
+          <Grid.Row>
+            <GuessField />
+          </Grid.Row>
         </Grid>
       </Container>
-      <GuessField />
-      <Button onClick={ () => dispatch( shuffleLetters() ) }>Shuffle</Button>
-      <Button onClick={ () => dispatch( clearCurrentGuess() ) }>Clear</Button>
     </div>
   );
 
