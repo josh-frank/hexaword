@@ -37,6 +37,19 @@
   }
 } */
 
+body::before {
+  content: "";
+  background-image: url( ./assets/background.jpg );
+  background-size: cover;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.25;
+  z-index: -9999;
+}
+
 @font-face {
   font-family: "Digital-7 Mono";
   src: local( "Digital-7 Mono" ), url( ./assets/digital-7.ttf ) format( "truetype" );

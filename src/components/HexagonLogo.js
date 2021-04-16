@@ -6,7 +6,7 @@ export default function HexagonLogo( { small, negative } ) {
         width="820"
         height="170"
         viewBox="0 0 820 170"
-        style={ small ? { width: "25%", height: "auto" } : null }
+        style={ small ? { width: "50%", height: "auto" } : null }
     >
         <polygon
             points={ hexagonPoints }
