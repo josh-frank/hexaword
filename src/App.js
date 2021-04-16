@@ -78,6 +78,9 @@ function App() {
         dispatch( addToGuesses( currentGuess ) );
         dispatch( incrementScoreBy( currentGuess.length ) );
         break;
+      case currentGuess.length < 4:
+        displayMessage( "Guess must be at least four letters long" );
+        break;
       default: displayMessage( "Not a valid guess" );
     }
     dispatch( clearCurrentGuess() );
