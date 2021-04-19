@@ -1,4 +1,4 @@
-export default function HexagonLogo( { size, negative } ) {
+export default function HexagonLogo( { text, size, negative } ) {
 
     const hexagonPoints = "120,60 90,112 30,112 0,60 30,8 90,8";
 
@@ -20,7 +20,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="60"
             y="80"
         >
-            H
+            { text[ 0 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -35,7 +35,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="160"
             y="140"
         >
-            E
+            { text[ 1 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -50,7 +50,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="260"
             y="80"
         >
-            X
+            { text[ 2 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -65,7 +65,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="360"
             y="140"
         >
-            A
+            { text[ 3 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -80,7 +80,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="460"
             y="80"
         >
-            W
+            { text[ 4 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -95,7 +95,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="560"
             y="140"
         >
-            O
+            { text[ 5 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -110,7 +110,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="660"
             y="80"
         >
-            R
+            { text[ 6 ] }
         </text>
         <polygon
             points={ hexagonPoints }
@@ -125,7 +125,7 @@ export default function HexagonLogo( { size, negative } ) {
             x="760"
             y="140"
         >
-            D
+            { text[ 7 ] }
         </text>
     </svg>;
 

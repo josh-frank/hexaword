@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementTime } from "../redux/currentTimeSlice";
+import { decrementTime } from "../redux/currentTimeSlice";
 
 export default function Timer() {
 
@@ -9,7 +9,7 @@ export default function Timer() {
     const currentTime = useSelector( state => state.currentTime );
 
     useEffect( () => {
-        const timer = setInterval( () => dispatch( incrementTime() ), 1000 );
+        const timer = setInterval( () => dispatch( decrementTime() ), 1000 );
         return () => clearInterval( timer );
       }, [ dispatch ] );
 

@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const currentTimeSlice = createSlice( {
     name: "currentTime",
-    initialState: { running: false, clock: 0 },
+    initialState: { running: false, clock: 240 },
     reducers: {
-      incrementTime( state ) {
-        if ( state.running ) { return { running: state.running, clock: state.clock + 1 }; }
+      decrementTime( state ) {
+        if ( state.running && state.clock > 0 ) { return { running: state.running, clock: state.clock - 1 }; }
         else { return state; }
       },
-      clearTime( state ) {
-        return { running: state.running, clock: 0 };
+      resetTime( state ) {
+        return { running: state.running, clock: 240 };
       },
       runTimer( state ) {
         return { running: true, clock: state.clock };
@@ -20,5 +20,5 @@ const currentTimeSlice = createSlice( {
     }
   } );
   
-  export const { incrementTime, clearTime, runTimer, stopTimer } = currentTimeSlice.actions;
+  export const { decrementTime, resetTime, runTimer, stopTimer } = currentTimeSlice.actions;
   export default currentTimeSlice.reducer;

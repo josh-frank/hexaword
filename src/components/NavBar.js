@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Header, Icon, Menu, Modal } from "semantic-ui-react";
 import { runTimer, stopTimer } from "../redux/currentTimeSlice";
 import HexagonLogo from "./HexagonLogo";
@@ -7,6 +7,8 @@ import HexagonLogo from "./HexagonLogo";
 export default function NavBar( { startGame } ) {
 
     const dispatch = useDispatch();
+
+    const currentScore = useSelector( state => state.currentScore );
 
     const [ displayNewGameModal, toggleDisplayNewGameModal ] = useState( false );
     const [ displayPauseModal, toggleDisplayPauseModal ] = useState( false );
@@ -52,7 +54,7 @@ export default function NavBar( { startGame } ) {
             trigger={ <Button secondary>About</Button> }
         >
             <Modal.Content align="center">
-                <HexagonLogo size="80%" />
+                <HexagonLogo text="HEXAWORD" size="80%" />
                 <Header>by <a href="https://josh-frank.netlify.app/" target="_blank" rel="noreferrer">Josh Frank</a></Header>
                 <p>Guess as many words as you can using the letters in the hexagons! Your guess must include the letter in the center cell and must be at least four letters long.</p>
                 <a href="https://www.linkedin.com/in/josh-frank-10018997/" target="_blank" rel="noreferrer">
@@ -120,7 +122,8 @@ export default function NavBar( { startGame } ) {
         attached="top"
         color="black"
     >
-        <Menu.Item><HexagonLogo size="50%" negative={ true }/></Menu.Item>
+        <Menu.Item><HexagonLogo text="HEXAWORD" size="50%" negative={ true }/></Menu.Item>
+        <Menu.Item>Total: { currentScore.total }</Menu.Item>
         <Menu.Item position="right">
             <AboutModal />
             <PauseGameModal />

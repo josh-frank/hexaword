@@ -7,11 +7,11 @@ export default function Score() {
 
     return <>
         <Header className="score" textAlign="center">
-            Score: { currentScore }
+            Score: { currentScore.score }
         </Header>
         <Progress
             indicating
-            value={ currentScore }
+            value={ currentScore.score }
             total={ 100 }
         />
     </>;

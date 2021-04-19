@@ -2,16 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const currentScoreSlice = createSlice( {
     name: "currentScore",
-    initialState: 0,
+    initialState: { score: 0, total: 0 },
     reducers: {
-      incrementScoreBy( state, action ) {
-        return state + action.payload;
+      moveCurrentScoreToTotalScore( state ) {
+        return { score: 0, total: state.score + state.total };
       },
-      resetScore() {
-        return 0;
+      incrementCurrentScoreBy( state, action ) {
+        return { score: state.score + action.payload, total: state.score };
+      },
+      resetCurrentScoreAndTotal() {
+        return { score: 0, total: 0 };
       }
     }
   } );
   
-  export const { incrementScoreBy, resetScore } = currentScoreSlice.actions;
+  export const {
+    moveCurrentScoreToTotalScore,
+    incrementCurrentScoreBy,
+    resetCurrentScoreAndTotal
+  } = currentScoreSlice.actions;
   export default currentScoreSlice.reducer;
